@@ -1,6 +1,9 @@
 package com.lin.weather;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -64,6 +67,12 @@ public class MainActivity extends Activity {
                         String s=map.get("city").toString();
                         TV_city.setText(s);
                         TV_tmp.setText(map.get("tmp").toString()+"°");
+                        String s2=map.get("tmp").toString();
+                        if(Integer.parseInt(s2)<15){
+                            Toast.makeText(MainActivity.this,"天气比较凉！注意保暖。",Toast.LENGTH_SHORT).show();
+                        }else if(Integer.parseInt(s2)>30){
+                            Toast.makeText(MainActivity.this,"天气比较热！多喝水以防中暑哦！",Toast.LENGTH_SHORT).show();
+                        }
                         TV_cnty.setText(map.get("cnty").toString());
                         TV_txt.setText(map.get("txt").toString());
                         TV_dir.setText(map.get("dir").toString());
@@ -128,11 +137,12 @@ public class MainActivity extends Activity {
 
 
     public void play(View view){  //点击事件
+
        // jsonString=GetJson.request(httpUrl,httpArg);
         if(mCityName.getText().toString().equals("")){
             Toast.makeText(this,"请输入城市名称",Toast.LENGTH_SHORT).show();
         }else{
-            new Thread(new MyThread()).start();  //开启子线程
+                new Thread(new MyThread()).start();  //开启子线程
         }
     }
 
@@ -177,6 +187,7 @@ public class MainActivity extends Activity {
         return sb.toString().toLowerCase();
     }
 
+
    /* public void init() throws JSONException {  //访问网络必须卸载子线程里面。否则会出现 NetworkOnMainThreadException 异常
         JSONObject jsonObject;
         jsonObject = new JSONObject(jsonString);
@@ -187,4 +198,63 @@ public class MainActivity extends Activity {
         Log.i("JsonString------->",jsonString);  //得到Json数据
     }//init
 */
+
+    //检查网络的类
+    class NetWorking{
+       //判断是否连接网络
+       public boolean isNetWorkConnected(Context context){//以上下文做完参数
+           if(context!=null){
+               ConnectivityManager mConnectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+               NetworkInfo mNetWorkInfo=mConnectivityManager.getActiveNetworkInfo();
+               if(mNetWorkInfo!=null){
+                   return mNetWorkInfo.isAvailable();
+               }
+           }
+           return false;//未连接返回false
+       }
+
+
+       //判断wifi网络是否可用
+       public boolean isWifiConnected(Context context) {
+           if (context != null) {
+               ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                       .getSystemService(Context.CONNECTIVITY_SERVICE);
+               NetworkInfo mWiFiNetworkInfo = mConnectivityManager
+                       .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+               if (mWiFiNetworkInfo != null) {
+                   return mWiFiNetworkInfo.isAvailable();
+               }
+           }
+           return false;
+       }
+       //判断MOBILE网络是否可用
+       public boolean isMobileConnected(Context context) {
+           if (context != null) {
+               ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                       .getSystemService(Context.CONNECTIVITY_SERVICE);
+               NetworkInfo mMobileNetworkInfo = mConnectivityManager
+                       .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+               if (mMobileNetworkInfo != null) {
+                   return mMobileNetworkInfo.isAvailable();
+               }
+           }
+           return false;
+       }
+
+       //获取当前网络连接的类型信息
+       public  int getConnectedType(Context context) {
+           if (context != null) {
+               ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                       .getSystemService(Context.CONNECTIVITY_SERVICE);
+               NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+               if (mNetworkInfo != null && mNetworkInfo.isAvailable()) {
+                   return mNetworkInfo.getType();
+               }
+           }
+           return -1;
+       }
+
+   }
+
+
 }
