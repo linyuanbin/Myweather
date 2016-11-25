@@ -6,10 +6,10 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 
 /**
@@ -17,7 +17,13 @@ import java.util.Map;
  */
 public class Show {
 
-    private List<Map<String,Object>> list;
+    public static String[] date = {"date_d1","date_d2","date_d3","date_d4","date_d5","date_d6","date_d7"};
+    public static String[] txt01 = {"txt_d1","txt_d2","txt_d3","txt_d4","txt_d5","txt_d6","txt_d7"};//这三个用于存储未来7 天天气
+    public static String[] max = {"max1","max2","max3","max4","max5","max6","max7"};
+    public static String[] min = {"min1","min2","min3","min4","min5","min6","min7"};
+
+
+    private List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();  //一定记得初始化，否则空指针异常
     public List<Map<String,Object>> result(String jsonString) throws Exception {
         JSONObject jsonObject;
         jsonObject = new JSONObject(jsonString);
@@ -52,6 +58,7 @@ public class Show {
         Log.i("dsdsd----------->",deg);
         Log.i("dsds------------>",vis);
         Log.i("dsdsd----------->",tmp);
+        Log.i("pm2.5----------->",pm25);
 
 
         //未来七天天气
@@ -71,6 +78,19 @@ public class Show {
         String dir1=jsonObject.getJSONObject("daily_forecast").getJSONObject("wind").getString("dir");//风向 东南风
         String sc1=jsonObject.getJSONObject("daily_forecast").getJSONObject("wind").getString("sc");//风力
 */
+
+        JSONArray daily_forecast = jsonObject.getJSONArray("daily_forecast");
+        for (int i = 0;i<daily_forecast.length();i++)
+        {
+            //map.put(date[i],jsonObject.getJSONObject("daily_forecast").getString("date"));
+            JSONObject tq = daily_forecast.getJSONObject(i);
+            map.put(txt01[i],tq.getJSONObject("cond").getString("txt_d"));
+            map.put(max[i],tq.getJSONObject("tmp").getString("max"));
+            map.put(min[i],tq.getJSONObject("tmp").getString("min"));
+
+
+        }
+
         map.put("city",city);
         map.put("cnty",cnty);
         map.put("update",update);

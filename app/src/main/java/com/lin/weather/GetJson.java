@@ -38,7 +38,7 @@ public class GetJson {
             connection.setConnectTimeout(8000);
             connection.setReadTimeout(8000);
             // 填入apikey到HTTP header
-            connection.setRequestProperty("apikey","你自己的 APIkey");
+            connection.setRequestProperty("apikey","af02a3e0e93ef6cbb85eada01a1c40ae");
             connection.connect();
             Log.i("jsojo---------->",connection+"");
             InputStream is = connection.getInputStream();
