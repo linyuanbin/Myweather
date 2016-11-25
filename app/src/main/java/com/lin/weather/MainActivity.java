@@ -39,6 +39,10 @@ public class MainActivity extends Activity {
     private TextView TV_tmp02;
     private TextView TV_txt03;
     private TextView TV_tmp03;
+    private TextView TV_txt04;
+    private TextView TV_tmp04;
+    private TextView TV_txt05;
+    private TextView TV_tmp05;
 
 
     private List<Map<String,Object>> list;   //注意是Object 而不是 Objects
@@ -68,13 +72,17 @@ public class MainActivity extends Activity {
                         TV_pm25.setText(map.get("pm25").toString());
 
                         //未来七天
-                        //TV_date.setText(show.date[0].toString());
+                        //TV_date.setText(map.get(show.date[0]).toString());
                         TV_txt01.setText(map.get(show.txt01[0]).toString());
                         TV_tmp01.setText(map.get(show.min[0].toString())+" ~ "+map.get(show.max[0].toString())+"°");
-                       /* TV_txt02.setText(map.get(show.txt01[1]).toString());
+                        TV_txt02.setText(map.get(show.txt01[1]).toString());
                         TV_tmp02.setText(map.get(show.min[1].toString())+" ~ "+map.get(show.max[1].toString())+"°");
                         TV_txt03.setText(map.get(show.txt01[2]).toString());
-                        TV_tmp03.setText(map.get(show.min[2].toString())+" ~ "+map.get(show.max[2].toString())+"°");*/
+                        TV_tmp03.setText(map.get(show.min[2].toString())+" ~ "+map.get(show.max[2].toString())+"°");
+                        TV_txt04.setText(map.get(show.txt01[3]).toString());
+                        TV_tmp04.setText(map.get(show.min[3].toString())+" ~ "+map.get(show.max[3].toString())+"°");
+                        TV_txt05.setText(map.get(show.txt01[4]).toString());
+                        TV_tmp05.setText(map.get(show.min[4].toString())+" ~ "+map.get(show.max[4].toString())+"°");
 
                     }
                     } catch (Exception e) {
@@ -107,6 +115,10 @@ public class MainActivity extends Activity {
         TV_tmp02= (TextView) findViewById(R.id.tmp02);
         TV_txt03= (TextView) findViewById(R.id.txt03);
         TV_tmp03= (TextView) findViewById(R.id.tmp03);
+        TV_txt04= (TextView) findViewById(R.id.txt04);
+        TV_tmp04= (TextView) findViewById(R.id.tmp04);
+        TV_txt05= (TextView) findViewById(R.id.txt05);
+        TV_tmp05= (TextView) findViewById(R.id.tmp05);
 
         Log.i("jsonResult---------->","11111111");
 

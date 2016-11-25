@@ -50,7 +50,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:textSize="20dp"
+            android:textSize="30dp"
             android:id="@+id/txt"
             android:text="null"
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:textSize="20dp"
                 android:text="null"
                 android:id="@+id/dir"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -83,12 +83,13 @@
     <TextView
         android:textSize="20dp"
         android:text="空气指数："
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content" />
     <TextView
         android:textSize="20dp"
         android:id="@+id/aqi"
         android:text="null"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
@@ -99,7 +100,7 @@
             <TextView
                 android:textSize="20dp"
                 android:text="PM2.5"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content" />
             <TextView
                 android:textSize="20dp"
@@ -139,7 +140,7 @@
 
     <TextView
         android:gravity="center"
-        android:text="未来几天天气"
+        android:text="未来几天天气预览"
         android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -152,15 +153,17 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
 
-      <!--  <TextView
+      <!-- <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />-->
         <TextView
             android:id="@+id/txt01"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -173,12 +176,14 @@
     <LinearLayout
         android:layout_marginLeft="20dp"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
 
         <TextView
             android:gravity="center"
             android:id="@+id/txt02"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -191,11 +196,13 @@
     <LinearLayout
         android:layout_marginLeft="20dp"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/txt03"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -205,6 +212,42 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt04"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tmp04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt05"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tmp05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </LinearLayout>
 
 
