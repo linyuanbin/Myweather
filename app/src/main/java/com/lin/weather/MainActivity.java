@@ -14,18 +14,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class MainActivity extends Activity {
 
-
-    private String httpUrl = "http://apis.baidu.com/heweather/weather/free";
+    //天气spi
+    private String httpUrl = "http://apis.baidu.com/heweather/weather/free";//http://apis.baidu.com/heweather/weather/free
     private String httpArg = "city=";
-    private String jsonString=null;
+
+    //汉字转换拼音api
+    String httpUrl2 = "http://apis.baidu.com/xiaogg/changetopinyin/topinyin";
+    String httpArg2 = "str=百度";
+    String httpArg3 = "&type=json&traditional=0&accent=0&letter=0&only_chinese=0";
+    private String jsonString_pinyin=null;//用于存储返回的拼音
+
     private EditText mCityName;
     private TextView TV_city;
     private TextView TV_tmp;
@@ -68,11 +84,13 @@ public class MainActivity extends Activity {
                         TV_city.setText(s);
                         TV_tmp.setText(map.get("tmp").toString()+"°");
                         String s2=map.get("tmp").toString();
-                        if(Integer.parseInt(s2)<15){
-                            Toast.makeText(MainActivity.this,"天气比较凉！注意保暖。",Toast.LENGTH_SHORT).show();
+                      /*  if(Integer.parseInt(s2)<25&&Integer.parseInt(s2)>10){
+                            Toast.makeText(MainActivity.this,"冬天有人惦记,寒冷就会止步,天气比较凉！注意保暖。",Toast.LENGTH_SHORT).show();
+                        }else if(Integer.parseInt(s2)<10) {
+                            Toast.makeText(MainActivity.this,"莫愁前路无知己,天下谁人不识君。天气超级冷！注意保暖。",Toast.LENGTH_SHORT).show();
                         }else if(Integer.parseInt(s2)>30){
-                            Toast.makeText(MainActivity.this,"天气比较热！多喝水以防中暑哦！",Toast.LENGTH_SHORT).show();
-                        }
+                            Toast.makeText(MainActivity.this,"人生不相见,动如参与商。天气比较热！多喝水以防中暑哦！",Toast.LENGTH_SHORT).show();
+                        }*/
                         TV_cnty.setText(map.get("cnty").toString());
                         TV_txt.setText(map.get("txt").toString());
                         TV_dir.setText(map.get("dir").toString());
@@ -131,8 +149,13 @@ public class MainActivity extends Activity {
 
         Log.i("jsonResult---------->","11111111");
 
-        String st=getPinYin("吉林jilin");
-        Log.i("sdsdsd--pinyin---->",st);
+        String s="吉林";
+        if (s.equals(Locale.CHINA) ) {  //||  s.equals(chinaAddition)
+            String st = getPinYin(s);
+            Log.i("sdsdsd--pinyin---->", st);
+        }else {
+            Log.i("sdsdsd--pinyin---->", s);
+        }
     }
 
 
@@ -151,9 +174,30 @@ public class MainActivity extends Activity {
         @Override
         public void run() {
                 String httpA=null;
-                //httpA=httpArg+mCityName.getText().toString();
-            String st=getPinYin(mCityName.getText().toString());
-            httpA=httpArg+st;  //调用函数将汉字转化为拼音
+            String st = getPinYin(mCityName.getText().toString());
+            httpA=httpArg+st;
+             //   httpA=httpArg+mCityName.getText().toString();  //这样写时只能实现拼音收索
+
+
+          /*   //api的到拼音法
+           jsonString_pinyin = request(httpUrl2,httpArg2,httpArg3);  //得到拼音的json数据
+            try {
+                httpA=httpArg+(new JSONObject(jsonString_pinyin).getString("pinyin"));
+
+                String string=httpA.toString();
+                Log.i("httpA---pinyin--->",string);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
+
+           /* String ss=mCityName.getText().toString();
+            if(ss.equals(Locale.CHINESE)) {  //判断是否是中文
+                //String st = getPinYin(mCityName.getText().toString());
+                String st = getPinYin(ss);
+                httpA = httpArg + st;  //调用函数将汉字转化为拼音
+            }else {
+                httpA=httpArg+mCityName.getText().toString();
+            }*/
 
                 Log.i("httpA--------->",httpA);
                 String jsonString=GetJson.request(httpUrl,httpA);  //得到jsonString
@@ -165,8 +209,39 @@ public class MainActivity extends Activity {
                 MainActivity.this.handler.sendMessage(msg);//传送给主线程信息
         }
     }
+/*
+//api得到json拼音
+    public static String request(String httpUrl, String httpArg1,String httpArg2) { //Json接口返回拼音
+        BufferedReader reader = null;
+        String result = null;
+        StringBuffer sbf = new StringBuffer();
+        httpUrl = httpUrl + "?" + httpArg1+httpArg2;
+        try {
+            URL url = new URL(httpUrl);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setRequestMethod("GET");
+            // 填入apikey到HTTP header
+            connection.setRequestProperty("apikey",  "af02a3e0e93ef6cbb85eada01a1c40ae");
+            connection.connect();
+            InputStream is = connection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            String strRead = null;
+            while ((strRead = reader.readLine()) != null) {
+                sbf.append(strRead);
+                sbf.append("\r\n");
+            }
+            reader.close();
+            result = sbf.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+*/
 
-     /**
+
+    /**
      * 汉字转换拼音，字母原样返回，都转换为小写
      *
      * @param input
